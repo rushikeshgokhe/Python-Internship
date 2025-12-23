@@ -1,23 +1,47 @@
-email =(input("Enter mail to check:")) 
-flag=0
-    # Check if exactly one '@' is present
-if email.count('@') == 1:
-         
-    # Split the email into local part and domain part
-         local_part, domain_part = email.split('@')
+import string
 
-    # Check if local and domain parts are not empty
-         if not local_part or not domain_part:     
-            flag=0
-         elif '.' not in domain_part:
-             flag=0
-         elif domain_part.startswith('.') or domain_part.endswith('.'):
-            flag=0
-         else:
-               flag=1
+password = input("Enter your password: ")
+    # Initialize criteria flags
+has_upper = 0
+has_lower = 0
+has_digit = 0
+has_special = 0
+
+    # Check each character in the password
+for char in password:
+        if char.isupper():
+            has_upper = 1
+        elif char.islower():
+            has_lower = 1
+        elif char.isdigit():
+            has_digit = 1
+        elif char in "!@#$%^&*()-_+=<>?/\\|{}[]~`":
+            has_special = 1
+
+    # Check password length
+if len(password) >= 8:
+        length_ok = 1
 else:
-        flag=0
-if flag==1:
-        print(email,"valid",sep=" ")
+        length_ok = 0
+
+    # Count how many conditions are true
+count = 0
+if length_ok==1:
+        count += 1
+if has_upper==1:
+        count += 1
+if has_lower==1:
+        count += 1
+if has_digit==1:
+        count += 1
+if has_special==1:
+        count += 1
+
+    # Evaluate strength
+if count == 5:
+        print("Strong password 💪")
+elif count >= 3:
+        print("Moderate password ⚠️")
 else:
-        print(email,"invalid",sep=" ")
+        print("Weak password ❌")
+
